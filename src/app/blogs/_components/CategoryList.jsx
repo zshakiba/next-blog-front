@@ -6,15 +6,7 @@ async function CategoryList() {
     data: { categories },
   } = await res.json();
   // console.log(categories);
-
-  return (
-    <ul className="space-y-4">
-      {categories.map((category) => (
-        <li key={category.id}>
-          <Link href={`/blogs/${category.slug}`}>{category.title}</Link>
-        </li>
-      ))}
-    </ul>
-  );
+  const listItems = categories.map((cat) => <li key={cat._id}>{cat.title}</li>);
+  return <ul>{listItems}</ul>;
 }
 export default CategoryList;
