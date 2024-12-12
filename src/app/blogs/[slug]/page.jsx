@@ -1,16 +1,26 @@
-import { getPostBySlug } from "@/services/postServices";
+import { getPostBySlug, getPosts } from "@/services/postServices";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
 
+// All posts besides the top 10 will be a 404
+export const dynamicParams = false;
 export async function generateMetadata({ params }) {
-  const post = await getPostBySlug(params.postSlug);
+  const post = await getPostBySlug(params.slug);
   return {
     title: `پست ${post.title}`,
   };
 }
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 async function SinglePost({ params }) {
-  const post = await getPostBySlug(params.postSlug);
+  const post = await getPostBySlug(params.slug);
 
   if (!post) notFound();
 
