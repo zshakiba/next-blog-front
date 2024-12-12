@@ -3,6 +3,7 @@ import React from "react";
 import CoverImage from "./CoverImage";
 import Author from "./Author";
 import { ClockIcon } from "@heroicons/react/24/outline";
+import PostInteraction from "./PostInteraction";
 
 async function PostList() {
   await new Promise((res) => setTimeout(res, 2000));
@@ -23,7 +24,7 @@ async function PostList() {
           {/* post content */}
           <div>
             <Link href={`/blogs/${post.slug}`}>
-              <h2 className="mb-4 font-bold text-secondary-700 hover:text-primary-900 transition-all ease-out">
+              <h2 className="my-4 font-bold text-secondary-700 hover:text-primary-900 transition-all ease-out">
                 {post.title}
               </h2>
             </Link>
@@ -38,7 +39,7 @@ async function PostList() {
                 <span>دقیقه</span>
               </div>
             </div>
-            {/* <PostInteraction post={post} /> */}
+            <PostInteraction post={post} />
           </div>
         </div>
       ))}

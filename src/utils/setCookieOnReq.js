@@ -1,13 +1,15 @@
-export default function setCookieOnReq(cookies) {
-  const accessToken = cookies.get("accessToken");
-  const refreshToken = cookies.get("refreshToken");
-
+export default function setCookiesOnReq(cookies) {
+  // cookies get from => 1. const cookies = cookies() OR 2: req.cookies
   const options = {
-    method: "GET",
-    credentials: "include",
     headers: {
-      Cookie: `${accessToken?.name}=${accessToken?.value}; ${refreshToken?.name}=${refreshToken?.value}`,
+      Cookie:
+        `${cookies.get("accessToken")?.name}=${
+          cookies.get("accessToken")?.value
+        }; ${cookies.get("refreshToken")?.name}=${
+          cookies.get("refreshToken")?.value
+        }` || "-",
     },
   };
+
   return options;
 }
