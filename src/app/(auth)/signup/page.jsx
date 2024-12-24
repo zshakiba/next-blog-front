@@ -5,8 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const schema = yup
   .object({
@@ -30,19 +29,9 @@ function Signup() {
     mode: "onTouched",
   });
 
-  const router = useRouter();
-
+  const { signup } = useAuth();
   const onSubmit = async (values) => {
-    // console.log(values);
-    try {
-      const { user, message } = await signupApi();
-      toast.success(message);
-      console.log(user, message);
-      router.push("/profile");
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-      console.log(error?.response?.data?.message);
-    }
+    await signup();
   };
 
   return (
@@ -75,11 +64,13 @@ function Signup() {
           isRequired
           errors={errors}
         />
-        <div>
-          <Button type="submit" variant="primary" className="w-full">
-            تایید
-          </Button>
-        </div>
+        {isLoading ? (
+            <SpinnerMini />
+          ) : (
+            <Button type="submit" variant="primary" className="w-full">
+              تایید
+            </Button>
+          )}
       </form>
       <Link href="/signin" className="text-secondary-500 mt-6 text-center">
         ورود

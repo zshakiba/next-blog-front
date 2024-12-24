@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import { signinApi } from "@/services/authService";
+import SpinnerMini from "@/ui/SpinnerMini";
 
 const schema = yup
   .object({
@@ -26,19 +26,10 @@ function Signin() {
     mode: "onTouched",
   });
 
-  const router = useRouter();
+  const { signin } = useAuth();
 
   const onSubmit = async (values) => {
-    // console.log(values);
-    try {
-      const { user, message } = await signinApi();
-      toast.success(message);
-      console.log(user, message);
-      router.push("/profile");
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-      console.log(error?.response?.data?.message);
-    }
+    await signin(values);
   };
 
   return (
@@ -64,11 +55,15 @@ function Signin() {
           isRequired
           errors={errors}
         />
-        <div>
-          <Button type="submit" variant="primary" className="w-full">
-            تایید
-          </Button>
-        </div>
+        <>
+          {isLoading ? (
+            <SpinnerMini />
+          ) : (
+            <Button type="submit" variant="primary" className="w-full">
+              تایید
+            </Button>
+          )}
+        </>
       </form>
       <Link href="/signup" className="text-secondary-500 mt-6 text-center">
         ثبت نام
