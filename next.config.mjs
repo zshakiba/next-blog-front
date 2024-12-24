@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    ppr: 'incremental',
+  },
   images: {
     remotePatterns: [
       {
@@ -10,6 +13,11 @@ const nextConfig = {
       },
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  }
 };
 
 export default nextConfig;

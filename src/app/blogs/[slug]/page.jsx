@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 // All posts besides the top 10 will be a 404
-export const dynamicParams = false;
+// export const dynamicParams = false;
 export async function generateMetadata({ params }) {
   const post = await getPostBySlug(params.slug);
   return {
