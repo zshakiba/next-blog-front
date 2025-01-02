@@ -1,6 +1,6 @@
 "use client";
 
-import { getUserApi, signupApi, singinApi } from "@/services/authService";
+import { getUserApi, signupApi, signinApi } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { createContext, useReducer, useContext, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -55,7 +55,7 @@ export default function AuthProvider({ children }) {
   async function signin(values) {
     dispatch({ type: "loading" });
     try {
-      const { user, message } = await singinApi(values);
+      const { user, message } = await signinApi(values);
       dispatch({ type: "signin", payload: user });
       toast.success(message);
       router.push("/profile");

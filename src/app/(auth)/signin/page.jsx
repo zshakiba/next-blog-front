@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAuth } from "@/context/AuthContext";
-import { signinApi } from "@/services/authService";
 import SpinnerMini from "@/ui/SpinnerMini";
 
 const schema = yup

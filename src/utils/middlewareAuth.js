@@ -1,39 +1,20 @@
-export default async function middlewareAuth(req) {
+export async function middlewareAuth(req) {
+  const accessToken = req.cookies.get("accessToken");
+  const refreshToken = req.cookies.get("refreshToken");
+
   const options = {
     method: "GET",
     credentials: "include",
     headers: {
-      Cookie:
-        `${req.cookies.get("accessToken")?.name}=${
-          req.cookies.get("accessToken")?.value
-        }; ${req.cookies.get("refreshToken")?.name}=${
-          req.cookies.get("refreshToken")?.value
-        }` || "-",
+      Cookie: `${accessToken?.name}=${accessToken?.value}; ${refreshToken?.name}=${refreshToken?.value}`,
     },
   };
 
-  const data = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/profile`,
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`,
     options
-  )
-    .then((res) => res.json())
-    .then((res) => res.data);
+  );
+  const { data } = await res.json();
   const { user } = data || {};
   return user;
-
-  // const options = {
-  //   headers: {
-  //     Cookie:
-  //       `${req.cookies.get("accessToken")?.name}=${
-  //         req.cookies.get("accessToken")?.value
-  //       }; ${req.cookies.get("refreshToken")?.name}=${
-  //         req.cookies.get("refreshToken")?.value
-  //       }` || "-",
-  //   },
-  // };
-  // const options = setCookiesOnReq(req.cookies);
-  // const data = await getUserApi(options);
-  // console.log(data);
-  // const { user } = data || {};
-  // return user;
 }
