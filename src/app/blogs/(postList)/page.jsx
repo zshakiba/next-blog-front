@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import setCookiesOnReq from "@/utils/setCookieOnReq";
 import { getPosts } from "@/services/postServices";
 
-async function BlogList() {
+async function BlogPage() {
   const cookieStore = await cookies();
   const options = setCookiesOnReq(cookieStore);
   const posts = await getPosts(options);
@@ -16,4 +16,4 @@ async function BlogList() {
   );
 }
 
-export default BlogList;
+export default BlogPage;
