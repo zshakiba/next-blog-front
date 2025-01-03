@@ -4,14 +4,9 @@ import CoverImage from "./CoverImage";
 import Author from "./Author";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import PostInteraction from "./PostInteraction";
-import { getPosts } from "@/services/postServices";
-import { cookies } from "next/headers";
-import setCookiesOnReq from "@/utils/setCookieOnReq";
 
-async function PostList() {
-  const cookieStore = await cookies();
-  const options = setCookiesOnReq(cookieStore);
-  const posts = await getPosts( options);
+async function PostList({posts}) {
+
 
   return posts && posts.length > 0 ? (
     <div className="grid grid-cols-12 gap-8">

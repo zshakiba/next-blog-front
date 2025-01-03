@@ -10,9 +10,9 @@ export async function getPostBySlug(slug) {
 }
 
 export async function getPosts(options, queries = "") {
-  const queryString = new URLSearchParams(queries).toString();
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/post/list?${queryString}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/post/list`,
     options
   );
 

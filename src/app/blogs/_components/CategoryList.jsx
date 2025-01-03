@@ -1,18 +1,25 @@
-import Spinner from "@/ui/Spinner";
 import Link from "next/link";
-import { Suspense } from "react";
 
 async function CategoryList() {
+  // await new Promise((res) => setTimeout(res, 2000));
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/list`);
   const {
     data: { categories },
   } = await res.json();
-  const listItems = categories.map((cat) => <li key={cat._id}>{cat.title}</li>);
 
   return (
-    <Suspense fallback={<Spinner />}>
-      <ul>{listItems}</ul>
-    </Suspense>
+    <ul className="space-y-4">
+      <Link href="/blogs">همه</Link>
+      {categories.map((category) => {
+        return (
+          <li key={category._id}>
+            <Link href={`/blogs/category/${category.slug}`}>
+              {category.title}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 export default CategoryList;
