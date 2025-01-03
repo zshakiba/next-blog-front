@@ -9,15 +9,20 @@ export async function getPostBySlug(slug) {
   return post;
 }
 
-export async function getPosts(options, queries = "") {
-
+export async function getPosts(queries, options) {
+  console.log(queries);
+  const query = typeof queries === "object" ? "" : queries;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/post/list`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/post/list?${query}`,
     options
   );
 
+  if (!res.ok) {
+    throw new Error(`HTTP Error: ${res.status}`);
+  }
+
   const { data } = await res.json();
-  const { posts = [] } = data || {}; // Default to empty array if no posts
+  const { posts = [] } = data || {};
   return posts;
 }
 
