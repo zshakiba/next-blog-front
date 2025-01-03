@@ -9,16 +9,21 @@ export async function getPostBySlug(slug) {
   return post;
 }
 
-export async function getPosts(options, queries = "") {
+export async function getPosts(queries, options) {
+  if (typeof queries == "string") {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/post/list?${queries}`,
+      options
+    );
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/post/list`,
-    options
-  );
+    if (!res.ok) {
+      throw new Error(`HTTP Error: ${res.status}`);
+    }
 
-  const { data } = await res.json();
-  const { posts = [] } = data || {}; // Default to empty array if no posts
-  return posts;
+    const { data } = await res.json();
+    const { posts = [] } = data || {};
+    return posts;
+  }
 }
 
 export async function likePostApi(postId) {
