@@ -3,13 +3,14 @@ import PostList from "../_components/PostList";
 import { cookies } from "next/headers";
 import setCookiesOnReq from "@/utils/setCookieOnReq";
 import { getPosts } from "@/services/postServices";
+import queryString from "query-string";
 
 async function BlogPage({ searchParams }) {
-  const  search  = await searchParams;
-
+  const search = await searchParams;
+  const queries = `${queryString.stringify(search)}`;
   const cookieStore = await cookies();
   const options = setCookiesOnReq(cookieStore);
-  const posts = await getPosts(options);
+  const posts = await getPosts(queries, options);
   return (
     <>
       {/* <p className="mb-4 text-secondary-700">
