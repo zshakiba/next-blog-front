@@ -10,7 +10,7 @@ export async function getPostBySlug(slug) {
 }
 
 export async function getPosts(queries, options) {
-  console.log(queries);
+
   const query = typeof queries === "object" ? "" : queries;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/post/list?${query}`,
