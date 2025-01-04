@@ -8,12 +8,10 @@ import React from "react";
 async function Category({ params, searchParams }) {
   const { categorySlug } = await params;
   const  search  = await searchParams;
+  
   const queries = `${queryString.stringify(
     search
   )}&categorySlug=${categorySlug}`;
-
-  // console.log("typeof queries:",typeof queries);
-
   const cookieStore = await cookies();
   const options = setCookiesOnReq(cookieStore);
   const posts = await getPosts(queries, options);
