@@ -1,5 +1,3 @@
-// import Avatar from "@/components/ui/Avatar";
-// import Button from "@/components/ui/Button";
 import Avatar from "@/ui/Avatar";
 import Button from "@/ui/Button";
 import { ArrowUturnRightIcon } from "@heroicons/react/24/outline";
