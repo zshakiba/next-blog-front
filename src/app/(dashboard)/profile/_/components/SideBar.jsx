@@ -9,7 +9,7 @@ import Link from "next/link";
 import SideBarNavs from "./SideBarNavs";
 
 function SideBar() {
-  // const { logout } = useAuth();
+  const { logout } = useAuth();
 
   const logoutHandler = async () => {
     await logout;
@@ -30,7 +30,7 @@ function SideBar() {
       <div className="overflow-y-auto flex-auto">
         <SideBarNavs />
         <div
-          // onClick={logoutHandler}
+          onClick={logoutHandler}
           className="flex items-center gap-x-2 rounded-2xl font-medium transition-all duration-200 text-secondary-700 py-3 px-4 hover:text-red-400 cursor-pointer"
         >
           <ArrowLeftStartOnRectangleIcon className="ml-4 h-5 w-5" />
