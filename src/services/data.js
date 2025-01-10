@@ -1,15 +1,15 @@
-"use server"
-
+"use server";
 
 import setCookiesOnReq from "@/utils/setCookieOnReq";
 import { cookies } from "next/headers";
 import { getAllUsersApi } from "./authService";
 import { getAllCommentsApi } from "./commentService";
-import {getAllPostsApi} from "./postServices"
+import { getAllPostsApi } from "./postServices";
 
 export async function fetchCardData() {
-  const cookieStore =await cookies();
+  const cookieStore = await cookies();
   const options = setCookiesOnReq(cookieStore);
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
   try {
     const data = await Promise.all([
       getAllUsersApi(options),

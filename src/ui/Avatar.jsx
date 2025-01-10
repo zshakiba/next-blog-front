@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-function Avatar({ src, width = 24 }) {
+function Avatar({ src = "/alt", width = 24 }) {
   return (
     <Image
       src={src || "/images/avatar.png"}

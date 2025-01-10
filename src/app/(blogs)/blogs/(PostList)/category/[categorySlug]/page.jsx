@@ -1,4 +1,4 @@
-import { getPosts } from "@/services/postServices";
+import { getAllPostsApi } from "@/services/postServices";
 import setCookiesOnReq from "@/utils/setCookieOnReq";
 import PostList from "app/(blogs)/blogs/_components/PostList";
 import { cookies } from "next/headers";
@@ -14,7 +14,7 @@ async function Category({ params, searchParams }) {
   )}&categorySlug=${categorySlug}`;
   const cookieStore = await cookies();
   const options = setCookiesOnReq(cookieStore);
-  const posts = await getPosts(queries, options);
+  const posts = await getAllPostsApi(queries, options);
 
   return (
     <div>

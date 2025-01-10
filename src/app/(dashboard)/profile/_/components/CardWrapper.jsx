@@ -1,4 +1,5 @@
-import { fetchCardData } from "@/lib/data";
+
+import { fetchCardData } from "@/services/data";
 import { Card } from "./Cards";
 
 async function CardWrapper() {

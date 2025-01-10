@@ -1,11 +1,10 @@
-
 import { getAllPostsApi } from "@/services/postServices";
 
 import Table from "@/ui/Table";
 import Empty from "@/ui/Empty";
 import PostRow from "./_/components/PostRow";
 
-async function PostsTable({ query }) {
+async function PostsTable({ query = "" }) {
   const { posts } = await getAllPostsApi(query);
 
   if (!posts.length) return <Empty resourceName="پستی" />;

@@ -1,4 +1,4 @@
-import { getPostBySlug, getPosts } from "@/services/postServices";
+import { getAllPostsApi, getPostBySlug } from "@/services/postServices";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -16,15 +16,16 @@ export async function generateMetadata({ params }) {
 }
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
-
+  const posts = await getAllPostsApi();
+  console.log(posts);
+  
   return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 async function SinglePost({ params }) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const {post} = await getPostBySlug(slug);
 
   if (!post) notFound();
 
