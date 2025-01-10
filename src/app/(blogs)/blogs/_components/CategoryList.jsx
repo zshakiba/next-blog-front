@@ -1,11 +1,14 @@
+import { getCategoryApi } from "@/services/categoryServie";
 import Link from "next/link";
 
 async function CategoryList() {
   // await new Promise((res) => setTimeout(res, 2000));
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/list`);
-  const {
-    data: { categories },
-  } = await res.json();
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/list`);
+  // const {
+  //   data: { categories },
+  // } = await res.json();
+
+  const { categories } = await getCategoryApi();
 
   return (
     <ul className="space-y-4">
