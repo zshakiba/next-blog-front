@@ -8,7 +8,8 @@ import PostComment from "../comment/PostComment";
 // All posts besides the top 10 will be a 404
 // export const dynamicParams = false;
 export async function generateMetadata({ params }) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
   return {
     title: `پست ${post.title}`,
   };
@@ -22,7 +23,8 @@ export async function generateStaticParams() {
   }));
 }
 async function SinglePost({ params }) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 
