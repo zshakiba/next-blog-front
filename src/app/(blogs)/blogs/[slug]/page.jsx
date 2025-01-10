@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
 }
 
 export async function generateStaticParams() {
-  const posts = await getAllPostsApi();
+  const {posts} = await getAllPostsApi();
   console.log(posts);
   
   return posts.map((post) => ({

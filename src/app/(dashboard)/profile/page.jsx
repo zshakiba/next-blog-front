@@ -1,11 +1,4 @@
-import { fetchCardData } from "@/services/data";
 import React, { Suspense } from "react";
-import { Card } from "./_/components/Cards";
-import PostList from "app/(blogs)/blogs/_components/PostList";
-import { getAllPostsApi } from "@/services/postServices";
-import { cookies } from "next/headers";
-import setCookiesOnReq from "@/utils/setCookieOnReq";
-import PostsTable from "./posts/page";
 import CardWrapper from "./_/components/CardWrapper";
 import Fallback from "@/ui/Fallback";
 import LatestPosts from "./_/components/LatestPosts";
@@ -13,10 +6,11 @@ import LatestPosts from "./_/components/LatestPosts";
 async function Profile() {
   return (
     <>
+      <h1 className="text-xl mb-8 text-secondary-700 ">داشبورد</h1>
       <Suspense fallback={<Fallback />}>
         <CardWrapper />
       </Suspense>
-
+      <h2 className="text-xl mb-8 text-secondary-600">آخرین پست ها</h2>
       <Suspense fallback={<Fallback />}>
         <LatestPosts />
       </Suspense>

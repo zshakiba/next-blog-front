@@ -1,31 +1,29 @@
+import { Suspense } from "react";
+import PostsTable from "./_/components/PostsTable";
+import Spinner from "@/ui/Spinner";
+import { CreatePost } from "./_/components/Buttons";
+import Search from "@/ui/Search";
+import queryString from "query-string";
 import { getAllPostsApi } from "@/services/postServices";
+import Pagination from "@/ui/Pagination";
 
-import Table from "@/ui/Table";
-import Empty from "@/ui/Empty";
-import PostRow from "./_/components/PostRow";
-
-async function PostsTable({ query = "" }) {
-  const { posts } = await getAllPostsApi(query);
-
-  if (!posts.length) return <Empty resourceName="پستی" />;
-
+async function Page({ searchParams }) {
+  const query = queryString.stringify(searchParams);
+  const { totalPages } = await getAllPostsApi(query);
   return (
-    <Table>
-      <Table.Header>
-        <th>#</th>
-        <th>عنوان</th>
-        <th>دسته بندی</th>
-        <th>نویسنده</th>
-        <th>تاریخ ایجاد</th>
-        <th>نوع</th>
-        <th>عملیات</th>
-      </Table.Header>
-      <Table.Body>
-        {posts.map((post, index) => (
-          <PostRow key={post._id} post={post} index={index} />
-        ))}
-      </Table.Body>
-    </Table>
+    <div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-secondary-700 mb-12 items-center ">
+        <h1>لیست پست ها </h1>
+        <Search />
+        <CreatePost />
+      </div>
+      <Suspense fallback={<Spinner />} key={query}>
+        <PostsTable query={query} />
+      </Suspense>
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
+    </div>
   );
 }
-export default PostsTable;
+export default Page;

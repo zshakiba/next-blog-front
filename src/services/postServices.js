@@ -2,7 +2,9 @@ import http from "./httpService";
 
 export async function getAllPostsApi(queries, options = {}) {
   // await new Promise((resolve) => setTimeout(resolve, 3000));
-  return http.get(`/post/list?${queries}`, options).then(({ data }) => data.data);
+  return http
+    .get(`/post/list?${queries}`, options)
+    .then(({ data }) => data.data);
 }
 
 export async function getPostById(id) {
