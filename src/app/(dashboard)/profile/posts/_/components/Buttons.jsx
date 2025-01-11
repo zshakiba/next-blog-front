@@ -2,12 +2,12 @@
 
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
+import { useActionState, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ButtonIcon from "@/ui/ButtonIcon";
 import ConfirmDelete from "@/ui/ConfirmDelete";
 import Modal from "@/ui/Modal";
+import deletePost from "./actions/deletePost";
 
 export function CreatePost() {
   return (
@@ -33,29 +33,28 @@ export function UpdatePost({ id }) {
 }
 
 export function DeletePost({ id: postId, postTitle }) {
-  // const deletePostWithId = ;
-  // const [state, formAction] = useFormState(deletePost, {
-  //   error: "",
-  //   message: "",
-  // });
-  // const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [state, formAction] = useActionState(deletePost, {
+    error: "",
+    message: "",
+  });
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  // useEffect(() => {
-  //   if (state?.message) {
-  //     toast.success(state.message);
-  //     setIsDeleteOpen(false);
-  //   }
-  //   if (state?.error) {
-  //     toast.error(state.error);
-  //   }
-  // }, [state]);
+  useEffect(() => {
+    if (state?.message) {
+      toast.success(state.message);
+      setIsDeleteOpen(false);
+    }
+    if (state?.error) {
+      toast.error(state.error);
+    }
+  }, [state]);
 
   return (
     <>
       <ButtonIcon variant="outline" onClick={() => setIsDeleteOpen(true)}>
         <TrashIcon className="text-error" />
       </ButtonIcon>
-      {/* <Modal
+      <Modal
         title={`حذف ${postTitle}`}
         open={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
@@ -64,11 +63,11 @@ export function DeletePost({ id: postId, postTitle }) {
           resourceName={postTitle}
           onClose={() => setIsDeleteOpen(false)}
           // onConfirm={deletePost.bind(null, postId)}
-          onConfirm={async (formData) => {
+          action={async (formData) => {
             await formAction({ formData, postId });
           }}
         />
-      </Modal> */}
+      </Modal>
     </>
   );
 }
