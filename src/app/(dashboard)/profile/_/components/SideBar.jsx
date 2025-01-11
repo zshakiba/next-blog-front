@@ -12,7 +12,12 @@ function SideBar() {
   const { logout } = useAuth();
 
   const logoutHandler = async () => {
-    await logout;
+    try {
+      await logout(); // Call the logout function
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // Optionally, show an error message to the user
+    }
   };
 
   return (

@@ -13,5 +13,16 @@ export async function getUserApi() {
 }
 
 export async function getAllUsersApi(options) {
-  return http.get("/user/list",options).then(({ data }) => data.data);
+  return http.get("/user/list", options).then(({ data }) => data.data);
+}
+
+export async function logoutApi() {
+  localStorage.removeItem("authToken");
+  try {
+    const response = await http.post("/user/logout");
+    return response.data;
+  } catch (error) {
+    console.error("Logout failed:", error);
+    throw new Error(error.response?.data?.message || "Failed to logout");
+  }
 }

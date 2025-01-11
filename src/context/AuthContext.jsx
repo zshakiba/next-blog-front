@@ -1,6 +1,6 @@
 "use client";
 
-import { getUserApi, signupApi, signinApi } from "@/services/authService";
+import { getUserApi, signupApi, signinApi, logoutApi } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { createContext, useReducer, useContext, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -42,6 +42,13 @@ const authReducer = (state, action) => {
         user: action.payload,
         isAuthenticated: true,
       };
+    case "logout":
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      };
   }
 };
 
@@ -80,31 +87,44 @@ export default function AuthProvider({ children }) {
     }
   }
 
-    async function getUser() {
-      dispatch({ type: "loading" });
-      try {
-        //   await new Promise((resolve) => setTimeout(resolve, 3000));
-        const { user } = await getUserApi();
-        dispatch({ type: "user/loaded", payload: user });
-        // console.log(user);
-        
-      } catch (error) {
-        const errorMsg = error?.response?.data?.message;
-        dispatch({ type: "rejected", payload: errorMsg });
-        // toast.error(errorMsg);
-      }
+  async function getUser() {
+    dispatch({ type: "loading" });
+    try {
+      //   await new Promise((resolve) => setTimeout(resolve, 3000));
+      const { user } = await getUserApi();
+      dispatch({ type: "user/loaded", payload: user });
+      // console.log(user);
+    } catch (error) {
+      const errorMsg = error?.response?.data?.message;
+      dispatch({ type: "rejected", payload: errorMsg });
+      // toast.error(errorMsg);
     }
+  }
 
-    useEffect(() => {
-      async function fetchData() {
-        await getUser();
-      }
-      fetchData();
-    }, []);
+  async function logout() {
+    dispatch({ type: "loading" });
+    try {
+      await logoutApi();
+      dispatch({ type: "logout" }); 
+      toast.success("Logged out successfully");
+      router.push("/signin"); 
+    } catch (error) {
+      const errorMsg = error.message || "Failed to logout";
+      dispatch({ type: "rejected", payload: errorMsg });
+      toast.error(errorMsg);
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      await getUser();
+    }
+    fetchData();
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, isLoading, signin, signup }}
+      value={{ user, isAuthenticated, isLoading, signin, signup, logout }}
     >
       {children}
     </AuthContext.Provider>
