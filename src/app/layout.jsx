@@ -1,6 +1,7 @@
 // "use client"
 import vazirFont from "@/constants/localFont";
 import AuthProvider from "@/context/AuthContext";
+import { DarkModeProvier } from "@/context/DarkModeContext";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
@@ -19,9 +20,11 @@ export default function RootLayout({ children }) {
     <html lang="fa" dir="rtl" className="">
       <body className={`${vazirFont.variable} font-sans min-h-screen`}>
         <Toaster />
-        <ReactQueryProvider>
-          <AuthProvider>{children}</AuthProvider> 
-        </ReactQueryProvider>
+        <DarkModeProvier>
+          <ReactQueryProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </ReactQueryProvider>
+        </DarkModeProvier>
       </body>
     </html>
   );

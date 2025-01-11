@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Avatar from "@/ui/Avatar";
 import ButtonIcon from "@/ui/ButtonIcon";
+import DarkModeToggle from "@/ui/DarkModeToggle";
 
 function Header({}) {
   // const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -29,6 +30,8 @@ function Header({}) {
               <Avatar src={user?.avatarUrl} />
             </ButtonIcon>
           </Link>
+
+          <DarkModeToggle />
         </div>
       </div>
     </header>
