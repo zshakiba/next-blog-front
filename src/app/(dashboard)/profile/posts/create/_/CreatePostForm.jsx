@@ -1,5 +1,6 @@
 "use client";
 import useCategories from "@/hooks/useCategory";
+import Button from "@/ui/Button";
 import ButtonIcon from "@/ui/ButtonIcon";
 import FileInput from "@/ui/FileInput";
 import RHFSelect from "@/ui/RHFSelect";
@@ -11,6 +12,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
+import useCreatePost from "./useCreatePost";
+import SpinnerMini from "@/ui/SpinnerMini";
+import { useRouter } from "next/navigation";
 
 const schema = yup
   .object({
@@ -40,6 +44,8 @@ const schema = yup
 function CreatePostForm() {
   const { categories } = useCategories();
   const [coverImageUrl, setCoverImageUrl] = useState(null);
+  const { createPost, isCreating } = useCreatePost();
+  const router = useRouter();
   const {
     control,
     register,
@@ -52,9 +58,25 @@ function CreatePostForm() {
     mode: "onTouched",
   });
 
+  const onSubmit = (data) => {
+    console.log({ data });
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    createPost(formData, {
+      onSuccess: () => {
+        console.log(formData);
+
+        router.push("/profile/posts ");
+      },
+    });
+  };
+
   return (
     <form
       className="form"
+      onSubmit={handleSubmit(onSubmit)}
       // onSubmit={handleSubmit(onSubmit)}
     >
       <RHFTextField
@@ -110,6 +132,7 @@ function CreatePostForm() {
               label="انتخاب کاور پست"
               name="coverImage"
               isRequired
+              errors={errors}
               {...rest}
               value={value?.fileNmae}
               onChange={(event) => {
@@ -143,6 +166,15 @@ function CreatePostForm() {
           </ButtonIcon>
         </div>
       )}
+      <div>
+        {isCreating ? (
+          <SpinnerMini />
+        ) : (
+          <Button variant="primary" type="submit" className="w-full">
+            تایید
+          </Button>
+        )}
+      </div>
     </form>
   );
 }
