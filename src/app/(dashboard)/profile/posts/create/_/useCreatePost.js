@@ -8,10 +8,7 @@ export default function useCreatePost() {
   const { isPending: isCreating, mutate: createPost } = useMutation({
     mutationFn: createPostApi,
     onSuccess: (data) => {
-      console.log(data);
-
       toast.success(data.message);
-
       queryClient.invalidateQueries({
         queryKey: ["posts"],
       });
@@ -19,7 +16,6 @@ export default function useCreatePost() {
 
     onError: (err) => {
       console.log(err);
-
       toast.error(err?.response?.data?.message);
     },
   });

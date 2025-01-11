@@ -1,6 +1,7 @@
+import { editPostApi } from "@/services/postServices";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { editPostApi } from "@/services/postService";
+
 
 export default function useEditPost() {
   const queryClient = useQueryClient();

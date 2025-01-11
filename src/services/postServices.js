@@ -8,7 +8,11 @@ export async function getAllPostsApi(queries, options = {}) {
 }
 
 export async function getPostById(id) {
-  return http.get(`/post/${id}`).then(({ data }) => data);
+  return http.get(`/post/${id}`).then(({ data }) => data.data);
+}
+
+export async function getPostBySlug(slug) {
+  return http.get(`/post/slug/${slug}`).then(({ data }) => data.data);
 }
 
 export async function createPostApi(data) {

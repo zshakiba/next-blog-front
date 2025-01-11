@@ -9,12 +9,14 @@ import TextField from "@/ui/TextField";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import useCreatePost from "./useCreatePost";
 import SpinnerMini from "@/ui/SpinnerMini";
 import { useRouter } from "next/navigation";
+import useEditPost from "./useEditPost";
+import { imageUrlToFile } from "@/utils/fileFormatter";
 
 const schema = yup
   .object({
@@ -41,10 +43,38 @@ const schema = yup
   })
   .required();
 
-function CreatePostForm() {
+function CreatePostForm({ postToEdit = {} }) {
+  const { _id: editId } = postToEdit;
+  const isEditSection = Boolean(editId);
+  const {
+    title,
+    text,
+    briefText,
+    slug,
+    readingTime,
+    category,
+    coverImage,
+    coverImageUrl: prevCoverImageUrl,
+  } = postToEdit;
+
+  let editValues = {};
+
+  if (isEditSection) {
+    editValues = {
+      title,
+      text,
+      briefText,
+      slug,
+      readingTime,
+      category: category._id,
+      coverImage,
+    };
+  }
+
   const { categories } = useCategories();
-  const [coverImageUrl, setCoverImageUrl] = useState(null);
+  const [coverImageUrl, setCoverImageUrl] = useState(prevCoverImageUrl || null);
   const { createPost, isCreating } = useCreatePost();
+  const { editPost, isEditing } = useEditPost();
   const router = useRouter();
   const {
     control,
@@ -56,7 +86,20 @@ function CreatePostForm() {
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onTouched",
+    defaultValues: editValues,
   });
+
+  useEffect(() => {
+    if (prevCoverImageUrl) {
+      async function fetchMyApi() {
+        const file = await imageUrlToFile(prevCoverImageUrl);
+        setValue("coverImage", file);
+      }
+      fetchMyApi();
+    }
+    {
+    }
+  }, [editId]);
 
   const onSubmit = (data) => {
     console.log({ data });
@@ -64,13 +107,24 @@ function CreatePostForm() {
     for (const key in data) {
       formData.append(key, data[key]);
     }
-    createPost(formData, {
-      onSuccess: () => {
-        console.log(formData);
 
-        router.push("/profile/posts ");
-      },
-    });
+    if (isEditSection) {
+      editPost(
+        { id: editId, data: formData },
+        {
+          onSuccess: () => {
+            reset();
+            router.push("/profile/posts ");
+          },
+        }
+      );
+    } else {
+      createPost(formData, {
+        onSuccess: () => {
+          router.push("/profile/posts ");
+        },
+      });
+    }
   };
 
   return (
