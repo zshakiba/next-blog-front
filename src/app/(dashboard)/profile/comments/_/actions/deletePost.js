@@ -1,19 +1,16 @@
 "use server";
 
-import { deletePostApi } from "@/services/postServices";
+import { deletePostApi } from "@/services/postService";
 import setCookiesOnReq from "@/utils/setCookieOnReq";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export default async function deletePost(prevState, { postId }) {
-  console.log("deletePost");
-
   const cookieStore = cookies();
 
   try {
     const options = setCookiesOnReq(cookieStore);
     const { message } = await deletePostApi(postId, options);
-    console.log(message);
 
     revalidatePath("/profile/posts");
 

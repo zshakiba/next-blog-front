@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import ButtonIcon from "@/ui/ButtonIcon";
 import ConfirmDelete from "@/ui/ConfirmDelete";
 import Modal from "@/ui/Modal";
-import deletePost from "./actions/deletePost";
+import postApi from "@/services/postServices";
 
 export function CreatePost() {
   return (
@@ -33,10 +33,11 @@ export function UpdatePost({ id }) {
 }
 
 export function DeletePost({ id: postId, postTitle }) {
-  const [state, formAction] = useActionState(deletePost, {
+  const [state, formAction] = useActionState(postApi.deletePostApi, {
     error: "",
     message: "",
   });
+
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   useEffect(() => {

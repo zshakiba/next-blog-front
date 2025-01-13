@@ -1,5 +1,5 @@
 "use client";
-import useLocalStorageState from "@/hooks/useLocalStoragesTate";
+import useLocalStorageState from "@/hooks/useLocalStorageState";
 import { createContext, useContext, useEffect } from "react";
 
 const DarkModeContext = createContext();
@@ -7,7 +7,7 @@ const DarkModeContext = createContext();
 export function DarkModeProvier({ children }) {
   const [isDarkMode, setIsDarkMode] = useLocalStorageState(
     "isDarkMoode",
-    window.matchMedia("(prefers-color-scheme: dark)").matches // true, false
+    // window.matchMedia("(prefers-color-scheme: dark)").matches // true, false
   );
 
   const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
